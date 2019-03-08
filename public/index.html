@@ -1,0 +1,55 @@
+
+<html>
+    <head>
+  
+        <title>
+            jason and ajax
+        </title>
+    </head>
+  <body>
+     <!-- the form can either use method="GET" or method="POST".  this choice    has implications for the PHP code -->
+     <form name="users" action="http://localhost:3000/todo" onsubmit="return validateForm()" method="post">
+        Name: <input type="text" name="name">
+        <input type="submit" value="Submit">
+        <input type="delete" value="delete">
+      </form>
+            <b>Users information:<b>
+            <button onclick="myFunction()">show data</button>
+
+   <script>   
+function validateForm() {
+  var x = document.forms["users"]["name"].value;
+  if (x == "") {
+    alert("please enter the Name");
+    return false;
+  }
+}
+       function myFunction() {
+            var request = new XMLHttpRequest();
+            request.open('get',"http://localhost:3000/users");
+            console.log(request)
+            request.responseType = 'json';
+            request.send();
+      request.onload= function() {
+     var users = request.response.data;
+       alert("are you sure?");
+   DisplayName(users);
+   }
+
+    function DisplayName(obj){
+        for(var i = 0; i < obj.length ; i++){
+        var para = document.createElement('li'); 
+        var b = document.createElement('b');
+        var span = document.createElement('span');
+      
+       b.textContent = 'Name : ';
+        para.appendChild(b);
+       span.textContent = obj[i].name;
+        para.appendChild(span);    
+       document.body.appendChild(para);
+        } 
+   }
+} 
+  </script>
+     </body>
+  </html>
